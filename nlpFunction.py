@@ -9,7 +9,8 @@ import pandas as pd
 import re
 
 def nlpFunction(someText, hmLines):
-
+    # ---------------------------------------------------------------------
+    # Split out the sentences
     sentences = re.split("\!|\.|\?",someText)
     sentences2 = []
     for sentence in sentences:
@@ -28,7 +29,8 @@ def nlpFunction(someText, hmLines):
             sentences4.append(sentence)
 
     sentences = sentences4
-
+    # ---------------------------------------------------------------------------------------------
+    # Preprocess sentences
     import string
     nopunc = string.punctuation
     print("    .")
@@ -59,12 +61,15 @@ def nlpFunction(someText, hmLines):
             if word not in stopwords.words('english'):
                 words.append(word)
 
+    # ---------------------------------------------------------------------------------
+    # Make a dataframe of the word/wordFrequencies (and normalizing frequencies)
+
     import pandas as pd
     print("    .")
     freqDict = {}
     for word in words:
         if word not in freqDict:
-            freqDict[word] = 0
+            freqDict[word] = 1
         else:
             freqDict[word] += 1
 
@@ -75,9 +80,15 @@ def nlpFunction(someText, hmLines):
 
     df.sort_values(by="Freq", ascending=False, inplace=True)
 
-    df['wFreq'] = df['Freq'].apply(lambda x: x / 5)
+    denom = df["Freq"].iloc[0]
+    print(denom)
+
+    df['wFreq'] = df['Freq'].apply(lambda x: x / denom) # normazine freuencies
     print("    .")
-    # sum of weighted frequencies
+
+    # ---------------------------------------------------------------
+    # Scoring sentences
+    # sentences: sum of weighted frequencies
     swf = []
 
     swfDict = {}
@@ -104,7 +115,6 @@ def nlpFunction(someText, hmLines):
     df2.reset_index(drop=True, inplace=True)
     print("    .")
 
-    print("    .")
 
     def numLines(num):
         temp = ""
