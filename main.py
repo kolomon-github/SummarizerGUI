@@ -22,7 +22,7 @@ class Application(tk.Frame):
         self.entry = tk.Entry(self)  # options = []
 
         self.entry['textvariable'] = self.toSummarize
-        self.entry.pack(side="top")
+        self.entry.pack(side="top", pady=0)
 
         self.var = int()
         self.scale = tk.Scale(self)
@@ -30,16 +30,13 @@ class Application(tk.Frame):
         self.scale["orient"] = "horizontal"
         self.scale["from"] = 1
         self.scale["to"] = 8
-
-
-
         self.scale.pack(side="top") # , position="horizontal")
 
 
         self.summarizeButton = tk.Button(self)
-        self.summarizeButton["text"] = "Translate"
+        self.summarizeButton["text"] = "Summarize"
         self.summarizeButton["command"] = self.summarize
-        self.summarizeButton.pack(side="top")
+        self.summarizeButton.pack(side="top", pady=4)
 
         #self.summary = ""
         self.summaryMessage = tk.Message(self)
