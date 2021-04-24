@@ -11,7 +11,9 @@ import re
 def nlpFunction(someText, hmLines):
     # ---------------------------------------------------------------------
     # Split out the sentences
-    sentences = re.split("\!|\.|\?",someText)
+    sentences = re.split('!|\.|\?',someText)
+    print("log: length of 'sentences': " + str(len(sentences)))
+
     sentences2 = []
     for sentence in sentences:
         sentences2.append(sentence.rstrip())
@@ -21,30 +23,30 @@ def nlpFunction(someText, hmLines):
     for sentence in sentences2:
         sentences3.append(sentence.strip())
 
-    print("    .")
     # Remove Empty strings
-    sentences4 = []
+    sentencesSave = []  # 'sentencesSave' will be saved for final output
     for sentence in sentences3:
         if len(sentence) > 0:
-            sentences4.append(sentence)
+            sentencesSave.append(sentence)
 
-    sentences = sentences4
+    # 'sentences' will be further modified
+    sentences = sentencesSave
     # ---------------------------------------------------------------------------------------------
     # Preprocess sentences
     import string
-    nopunc = string.punctuation
-    print("    .")
+    noPunc = string.punctuation
+
     # Remove punctuation
     sentencesA = []
     for sentence in sentences:
         temp = ""
         for char in sentence:
-            if char not in nopunc:
+            if char not in noPunc:
                 if char != "-":  # toggle
                     temp += char
         sentencesA.append(temp)
 
-    # Lowercase
+    # Make lowercase
     sentencesB = []
     for sentence in sentencesA:
         sentencesB.append(sentence.lower())
@@ -83,7 +85,7 @@ def nlpFunction(someText, hmLines):
     denom = df["Freq"].iloc[0]
     print(denom)
 
-    df['wFreq'] = df['Freq'].apply(lambda x: x / denom) # normazine freuencies
+    df['wFreq'] = df['Freq'].apply(lambda x: x / denom)  # normazine freuencies
     print("    .")
 
     # ---------------------------------------------------------------
@@ -108,7 +110,7 @@ def nlpFunction(someText, hmLines):
                 score += swfDict[i]
         swfList.append(score)
 
-    df2 = pd.DataFrame(data=[[sentences4[i], swfList[i]] for i in range(len(swfList))], columns=["Sentence", "Score"])
+    df2 = pd.DataFrame(data=[[sentencesSave[i], swfList[i]] for i in range(len(swfList))], columns=["Sentence", "Score"])
 
     df2.sort_values(by="Score", ascending=False, inplace=True)
 
@@ -128,8 +130,10 @@ def nlpFunction(someText, hmLines):
 
     #hmLines = int(input("How many lines should we summarize to?: "))
     #hmLines = 3
-    print("")
+    #print(hmLines)
     out = numLines(hmLines)
+    print("number of lines in output" + str(len(out.split("."))))
+    print(out)
 
     return out
 

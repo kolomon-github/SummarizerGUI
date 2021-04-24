@@ -1,13 +1,11 @@
 #!\Users\kolok\anaconda3\envs\py38\python3.8
-
-# import tkinter
-# from tkinter import *
 import string
 from nltk.corpus import stopwords
 import pandas as pd
+import re
+
 import tkinter as tk
-import time
-from  nlpFunction import nlpFunction
+from nlpFunction import nlpFunction
 
 
 class Application(tk.Frame):
@@ -18,52 +16,41 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        # Input Widget
         self.toSummarize = ""
-        self.entry = tk.Entry(self)  # options = []
-
+        self.entry = tk.Entry(self)
         self.entry['textvariable'] = self.toSummarize
         self.entry.pack(side="top", pady=0)
 
+        # Num Sentences (of output) Widget
         self.var = int()
         self.scale = tk.Scale(self)
-        self.scale['variable'] = self.var # root, variable=var)
+        self.scale['variable'] = self.var
         self.scale["orient"] = "horizontal"
         self.scale["from"] = 1
         self.scale["to"] = 8
-        self.scale.pack(side="top") # , position="horizontal")
+        self.scale.pack(side="top")
 
-
+        # Button Widget
         self.summarizeButton = tk.Button(self)
         self.summarizeButton["text"] = "Summarize"
         self.summarizeButton["command"] = self.summarize
         self.summarizeButton.pack(side="top", pady=4)
 
-        #self.summary = ""
+        # Output Widget
         self.summaryMessage = tk.Message(self)
-        #self.summaryLabel["text"] = self.summary
-        # self.summaryLabel["height"] = 10
-        # self.summaryLabel["width"] = 20
         self.summaryMessage.pack(expand=True)
 
-        #self.quit = tk.Button(self, text="QUIT", fg="red",
-                              #command=self.master.destroy)
-        #self.quit.pack(side="bottom")
-
-    def _summarize(self):
-        #self.summary = self.toSummarize
-        print("hw")
-        print(self.summary)
-        print(self.entry['textvariable'])
-
     def summarize(self):
-        inp = self.entry.get()  # get(1.0, "end-1c")
-        temp = self.scale.get()
-        inp = nlpFunction(inp,temp)
-        # self.summaryLabel.config(text="one moment...")
-        # time.sleep(1)
-        self.summaryMessage.config(text=inp)
+        input = self.entry.get()  # get(1.0, "end-1c")
+        numSentences = self.scale.get()
+        input = nlpFunction(input, numSentences)
+        self.summaryMessage.config(text=input)
 
 
+# -------------------------------------------------------------
+# Mainloop
+# -------------------------------------------------------------
 root = tk.Tk()
 root.title("Summarizer GUI")
 root.geometry("600x400")
