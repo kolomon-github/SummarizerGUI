@@ -8,20 +8,20 @@ from nltk.corpus import stopwords
 import pandas as pd
 import re
 
-def nlpFunction(someText):
+def nlpFunction(someText, hmLines):
 
     sentences = re.split("\!|\.|\?",someText)
     sentences2 = []
     for sentence in sentences:
         sentences2.append(sentence.rstrip())
 
-    # Whitespace
+    # Remove Whitespace
     sentences3 = []
     for sentence in sentences2:
         sentences3.append(sentence.strip())
 
     print("    .")
-    # Empty strings
+    # Remove Empty strings
     sentences4 = []
     for sentence in sentences3:
         if len(sentence) > 0:
@@ -117,7 +117,7 @@ def nlpFunction(someText):
         return temp
 
     #hmLines = int(input("How many lines should we summarize to?: "))
-    hmLines = 3
+    #hmLines = 3
     print("")
     out = numLines(hmLines)
 

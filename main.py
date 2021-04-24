@@ -23,6 +23,19 @@ class Application(tk.Frame):
 
         self.entry['textvariable'] = self.toSummarize
         self.entry.pack(side="top")
+
+        self.var = int()
+        self.scale = tk.Scale(self)
+        self.scale['variable'] = self.var # root, variable=var)
+        self.scale["orient"] = "horizontal"
+        self.scale["from"] = 1
+        self.scale["to"] = 8
+
+
+
+        self.scale.pack(side="top") # , position="horizontal")
+
+
         self.summarizeButton = tk.Button(self)
         self.summarizeButton["text"] = "Translate"
         self.summarizeButton["command"] = self.summarize
@@ -47,13 +60,15 @@ class Application(tk.Frame):
 
     def summarize(self):
         inp = self.entry.get()  # get(1.0, "end-1c")
-        inp = nlpFunction(inp)
+        temp = self.scale.get()
+        inp = nlpFunction(inp,temp)
         # self.summaryLabel.config(text="one moment...")
         # time.sleep(1)
         self.summaryMessage.config(text=inp)
 
 
 root = tk.Tk()
+root.title("Summarizer GUI")
 root.geometry("600x400")
 app = Application(master=root)
 app.mainloop()
