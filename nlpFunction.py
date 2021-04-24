@@ -6,10 +6,11 @@ ROFL
 import string
 from nltk.corpus import stopwords
 import pandas as pd
+import re
 
 def nlpFunction(someText):
 
-    sentences = someText.split(".")
+    sentences = re.split("\!|\.|\?",someText)
     sentences2 = []
     for sentence in sentences:
         sentences2.append(sentence.rstrip())

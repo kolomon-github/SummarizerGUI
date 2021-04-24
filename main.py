@@ -7,7 +7,7 @@ from nltk.corpus import stopwords
 import pandas as pd
 import tkinter as tk
 import time
-from  nlpFunction import nlpFunctions
+from  nlpFunction import nlpFunction
 
 
 class Application(tk.Frame):
