@@ -1,4 +1,4 @@
-# SummarizerGui
+# SummarizerGUI
 
 A GUI made in Python's Tkinter that summarizes a body of text using the method below:
 
