@@ -4,5 +4,7 @@ A GUI made in Python's Tkinter that summarizes a body of text uses the method be
 
 -method: https://stackabuse.com/text-summarization-with-nltk-in-python/
 
-Example
-![](summarizerGui_screenshot.PNG)
+### Example
+
+- Summary (to two sentences) of the first section of this page: https://en.wikipedia.org/wiki/Mathematics
+![](summarizerGui_screenshot.PNG width=50% height=50%)
