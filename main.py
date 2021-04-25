@@ -1,8 +1,4 @@
-#!\Users\kolok\anaconda3\envs\py38\python3.8
-import string
-from nltk.corpus import stopwords
-import pandas as pd
-import re
+
 
 import tkinter as tk
 from nlpFunction import nlpFunction
@@ -44,6 +40,7 @@ class Application(tk.Frame):
     def summarize(self):
         input = self.entry.get()  # get(1.0, "end-1c")
         numSentences = self.scale.get()
+        print("log: main.py: line 43: number of SENTENCES requested for SUMMARY: " + str(numSentences))
         input = nlpFunction(input, numSentences)
         self.summaryMessage.config(text=input)
 

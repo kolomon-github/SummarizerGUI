@@ -1,18 +1,16 @@
-#!\Users\kolok\anaconda3\envs\py38\python3.8
-"""
-ROFL
 
-"""
-import string
-from nltk.corpus import stopwords
-import pandas as pd
-import re
 
 def nlpFunction(someText, hmLines):
+    # --------------------------------------------------------------------
+    # imports
+    import string
+    from nltk.corpus import stopwords
+    import pandas as pd
+    import re
+
     # ---------------------------------------------------------------------
     # Split out the sentences
     sentences = re.split('!|\.|\?',someText)
-    print("log: length of 'sentences': " + str(len(sentences)))
 
     sentences2 = []
     for sentence in sentences:
@@ -31,9 +29,10 @@ def nlpFunction(someText, hmLines):
 
     # 'sentences' will be further modified
     sentences = sentencesSave
+    print("log: nlpFunction.py: line 32: length of 'sentencesSave' (Valid Sentences): " + str(len(sentences)))
+
     # ---------------------------------------------------------------------------------------------
     # Preprocess sentences
-    import string
     noPunc = string.punctuation
 
     # Remove punctuation
@@ -42,8 +41,7 @@ def nlpFunction(someText, hmLines):
         temp = ""
         for char in sentence:
             if char not in noPunc:
-                if char != "-":  # toggle
-                    temp += char
+                temp += char
         sentencesA.append(temp)
 
     # Make lowercase
@@ -51,11 +49,11 @@ def nlpFunction(someText, hmLines):
     for sentence in sentencesA:
         sentencesB.append(sentence.lower())
 
+    # cache sentences
     sentences = sentencesB
 
+    # Remove stopwords
     words = []
-    print("    .")
-    from nltk.corpus import stopwords
 
     for sentence in sentences:
         temp = sentence.split()
@@ -64,10 +62,7 @@ def nlpFunction(someText, hmLines):
                 words.append(word)
 
     # ---------------------------------------------------------------------------------
-    # Make a dataframe of the word/wordFrequencies (and normalizing frequencies)
-
-    import pandas as pd
-    print("    .")
+    # Make a dataframe of the word vs wordFrequencies,then normalizing to find token weighted frequency
     freqDict = {}
     for word in words:
         if word not in freqDict:
@@ -83,16 +78,11 @@ def nlpFunction(someText, hmLines):
     df.sort_values(by="Freq", ascending=False, inplace=True)
 
     denom = df["Freq"].iloc[0]
-    print(denom)
 
-    df['wFreq'] = df['Freq'].apply(lambda x: x / denom)  # normazine freuencies
-    print("    .")
+    df['wFreq'] = df['Freq'].apply(lambda x: x / denom)  # normalize
 
     # ---------------------------------------------------------------
-    # Scoring sentences
-    # sentences: sum of weighted frequencies
-    swf = []
-
+    # Scoring sentences via sum of weight frequency of tokens (Then ranking by score)
     swfDict = {}
     wordArray = df['Word']
     wFreq = df['wFreq']
@@ -101,7 +91,7 @@ def nlpFunction(someText, hmLines):
         swfDict[wordArray[i]] = wFreq[i]
 
     swfList = []
-    print("    .")
+
     for sentence in sentences:
         temp = sentence.split()
         score = 0
@@ -110,30 +100,24 @@ def nlpFunction(someText, hmLines):
                 score += swfDict[i]
         swfList.append(score)
 
+    # Scoring sentences
     df2 = pd.DataFrame(data=[[sentencesSave[i], swfList[i]] for i in range(len(swfList))], columns=["Sentence", "Score"])
-
-    df2.sort_values(by="Score", ascending=False, inplace=True)
-
+    df2.sort_values(by="Score", ascending=False, inplace=True)  # ranking by score
     df2.reset_index(drop=True, inplace=True)
-    print("    .")
 
+    # returns a summary of "n" number of sentences
+    def numLines(n):
+        _out = ""
+        for i in df2['Sentence'].head(n):
+            _out += i
+            _out += "."
+            _out += " "
 
-    def numLines(num):
-        temp = ""
-        for i in df2['Sentence'].head(num):
-            temp += i
-            temp += "."
-            temp += " "
+        return _out
 
-        #print(temp)
-        return temp
-
-    #hmLines = int(input("How many lines should we summarize to?: "))
-    #hmLines = 3
-    #print(hmLines)
     out = numLines(hmLines)
-    print("number of lines in output" + str(len(out.split("."))))
-    print(out)
+
+    print("log: nlpFunction.py: line 120: summary: \n    " + out)
 
     return out
 
