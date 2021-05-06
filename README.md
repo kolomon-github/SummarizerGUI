@@ -12,7 +12,7 @@ A GUI made in Python's Tkinter that summarizes a body of text using the method b
 - Download the `bin` directory and run `main.py`
 - Copy some text and paste into the input field
 - Use the scroll bar to summarize to some number of sentences
-- Hit "Summarize" to get a summary
+- Hit the "Summarize" button to get a summary!
 
 ### Example
 
