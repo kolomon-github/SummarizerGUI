@@ -4,11 +4,15 @@ A GUI made in Python's Tkinter that summarizes a body of text using the method b
 
 - method: https://stackabuse.com/text-summarization-with-nltk-in-python/
 
-### System Requirements
-- Python 3
-- Make sure you have both python scripts in the same directory
-- Make sure your system has the following Python modules (NLTK and Pandas)
-- Run main.py via shell
+### Requirements
+- Python 3 (I used Python 3.8)
+- If you don't already have these Python modules, install the following `NLTK` and `Pandas`
+
+### How to use
+- Download the `bin` directory and run `main.py`
+- Copy some text and paste into the input field
+- Use the scroll bar to summarize to some number of sentences
+- Hit "Summarize" to get a summary
 
 ### Example
 
